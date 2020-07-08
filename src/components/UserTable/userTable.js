@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import API from "../../utils/API";
 import "./userTable.css";
+import UserContext from "../../utils/userContext";
+import Navbar from "../Navbar/navbar";
+import UserData from "../UserData/userData";
 
 function UserTable() {
   const [developerState, setDeveloperState] = useState({
@@ -9,6 +12,7 @@ function UserTable() {
 
   useEffect(() => {
     API.getUsers().then((res) => {
+      console.log(res.data.results);
       setDeveloperState({
         users: res.data.results,
       });
@@ -16,37 +20,12 @@ function UserTable() {
   }, []);
 
   console.log("developerState!!!", developerState);
+
   return (
-    <table className="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Matt</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
-        </tr>
-      </tbody>
-    </table>
+    <UserContext.Provider value={developerState}>
+      <Navbar />
+      <UserData />
+    </UserContext.Provider>
   );
 }
 
