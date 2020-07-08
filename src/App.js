@@ -3,6 +3,7 @@ import "./App.css";
 import Header from "./components/Header/header";
 import Navbar from "./components/Navbar/navbar";
 import Wrapper from "./components/Wrapper/wrapper";
+import UserTable from "./components/UserTable/userTable";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Wrapper>
         <Header />
         <Navbar />
+        <UserTable />
       </Wrapper>
     </div>
   );
