@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 // import { Link } from "react-router-dom";
+import UserContext from "../../utils/userContext";
 import "./navbar.css";
 
-function Navbar() {
+function Navbar(props) {
+  const context = useContext(UserContext);
+  console.log("context in Navbar!!!:", context);
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <form className="form-inline my-2 my-lg-0">
@@ -11,6 +14,9 @@ function Navbar() {
           type="search"
           placeholder="Search"
           aria-label="Search"
+          onChange={(e) => {
+            props.handleSearch(e);
+          }}
         ></input>
       </form>
     </nav>
