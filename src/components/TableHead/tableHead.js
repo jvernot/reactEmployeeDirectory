@@ -3,9 +3,10 @@ import React, { useContext } from "react";
 import UserContext from "../../utils/userContext";
 import TableData from "../TableData/tableData";
 
-const UserData = ({ handleSort }) => {
+const UserData = (props) => {
   const context = useContext(UserContext);
   console.log("context in tableHead!!!:", context);
+  console.log("props in tableHead!!!", props);
 
   return (
     <table className="table">
@@ -17,11 +18,12 @@ const UserData = ({ handleSort }) => {
                 className="col"
                 key={name}
                 style={{ width }}
-                // onClick={() => {
-                //   handleSort(name);
-                // }}
+                onClick={() => {
+                  props.handleSort(name);
+                }}
               >
                 {name}
+                <span className="pointer"></span>
               </th>
             );
           })}

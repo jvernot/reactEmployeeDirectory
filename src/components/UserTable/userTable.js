@@ -8,19 +8,75 @@ import TableHead from "../TableHead/tableHead";
 function UserTable() {
   const [developerState, setDeveloperState] = useState({
     users: [],
+    order: "descend",
     filteredUsers: [],
     headings: [
-      { name: "Picture", width: "10%" },
-      { name: "Name", width: "10%" },
-      { name: "Phone", width: "20%" },
-      { name: "Email", width: "20%" },
-      { name: "DOB", width: "10%" },
+      { name: "Picture", width: "10%", order: "descend" },
+      { name: "Name", width: "10%", order: "descend" },
+      { name: "Phone", width: "20%", order: "descend" },
+      { name: "Email", width: "20%", order: "descend" },
+      { name: "DOB", width: "10%", order: "descend" },
     ],
   });
 
+  const handleSort = (heading) => {
+    let currentOrder = developerState.headings
+      .filter((elem) => elem.name === heading)
+      .map((elem) => elem.order)
+      .toString();
+
+    console.log("CURRENT ORDER!!: ", currentOrder);
+
+    if (currentOrder === "descend") {
+      currentOrder = "ascend";
+    } else {
+      currentOrder = "descend";
+    }
+
+    const compareFnc = (a, b) => {
+      if (currentOrder === "ascend") {
+        // account for missing values
+        if (a[heading] === undefined) {
+          return 1;
+        } else if (b[heading] === undefined) {
+          return -1;
+        } else if (heading === "name") {
+          return a[heading].first.localeCompare(b[heading].first);
+        } else if (heading === "dob") {
+          return a[heading].age - b[heading].age;
+        } else {
+          return a[heading].localeCompare(b[heading]);
+        }
+      } else {
+        // account for missing values
+        if (a[heading] === undefined) {
+          return 1;
+        } else if (b[heading] === undefined) {
+          return -1;
+        } else if (heading === "name") {
+          return b[heading].first.localeCompare(a[heading].first);
+        } else if (heading === "dob") {
+          return b[heading].age - a[heading].age;
+        } else {
+          return b[heading].localeCompare(a[heading]);
+        }
+      }
+    };
+    const sortedUsers = developerState.filteredUsers.sort(compareFnc);
+    const updatedHeadings = developerState.headings.map((elem) => {
+      elem.order = elem.name === heading ? currentOrder : elem.order;
+      return elem;
+    });
+
+    setDeveloperState({
+      ...developerState,
+      filteredUsers: sortedUsers,
+      headings: updatedHeadings,
+    });
+  };
+
   useEffect(() => {
     API.getUsers().then((res) => {
-      console.log(res.data.results);
       setDeveloperState({
         ...developerState,
         users: res.data.results,
@@ -28,8 +84,6 @@ function UserTable() {
       });
     });
   }, []);
-
-  console.log("developerState!!!", developerState);
 
   const handleSearch = (event) => {
     const sift = event.target.value.toLowerCase();
@@ -50,7 +104,7 @@ function UserTable() {
   return (
     <UserContext.Provider value={developerState}>
       <Navbar handleSearch={handleSearch} />
-      <TableHead />
+      <TableHead handleSort={handleSort} />
     </UserContext.Provider>
   );
 }

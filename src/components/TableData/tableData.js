@@ -4,27 +4,43 @@ import UserContext from "../../utils/userContext";
 const TableData = () => {
   const context = useContext(UserContext);
 
-  return context.filteredUsers.map(
-    ({ login, name, picture, phone, email, dob }) => {
-      return (
-        <tbody>
-          <tr key={login.uuid}>
-            <td className="align-middle">
-              <img
-                alt={`headshot for ${name.first} ${name.last}`}
-                src={picture.medium}
-              />
-            </td>
-            <td className="align-middle">
-              {name.first} {name.last}
-            </td>
-            <td className="align-middle">{phone}</td>
-            <td className="align-middle">{email}</td>
-            <td className="align-middle">{dob.date}</td>
-          </tr>
-        </tbody>
-      );
-    }
+  return (
+    <tbody>
+      {context.filteredUsers[0] !== undefined &&
+      context.filteredUsers[0].name !== undefined ? (
+        context.filteredUsers.map(
+          ({ login, name, picture, phone, email, dob }) => {
+            return (
+              <tr key={login.uuid}>
+                <td data-th="Image" className="align-middle">
+                  <img
+                    src={picture.medium}
+                    alt={`profile pic for ${name.first} ${name.last}`}
+                    className="img-responsive"
+                  />
+                </td>
+                <td data-th="Name" className="align-middle">
+                  {name.first} {name.last}
+                </td>
+                <td data-th="Phone" className="align-middle">
+                  {phone}
+                </td>
+                <td data-th="Email" className="align-middle">
+                  <a href={`mailto: ${email}`} target="__blank">
+                    {email}
+                  </a>
+                </td>
+                <td data-th="DOB" className="align-middle">
+                  {dob.date}
+                </td>
+              </tr>
+            );
+          }
+        )
+      ) : (
+        <></>
+      )}
+    </tbody>
   );
 };
 
