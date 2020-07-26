@@ -77,6 +77,7 @@ function UserTable() {
 
   useEffect(() => {
     API.getUsers().then((res) => {
+      console.log(res.data.results);
       setDeveloperState({
         ...developerState,
         users: res.data.results,
@@ -91,9 +92,10 @@ function UserTable() {
       let values = `${person.name.first.toLowerCase()} ${person.name.last.toLowerCase()}`;
       if (values.indexOf(sift) > -1) {
         return person;
+      } else {
+        return null;
       }
     });
-    console.log("filtered Users!!", filteredList);
 
     setDeveloperState({
       ...developerState,
