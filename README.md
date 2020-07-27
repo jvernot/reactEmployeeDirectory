@@ -1,6 +1,6 @@
 ## React Employee Directory
 
-![Employee Directory]("/public/ReactEmployeeDirectory.png")
+![Employee Directory](/public/ReactEmployeeDirectory.png)
 
 ## Overview
 
