@@ -19,7 +19,19 @@ function UserTable() {
     ],
   });
 
+  useEffect(() => {
+    API.getUsers().then((res) => {
+      console.log(res.data.results);
+      setDeveloperState((d) => ({
+        ...d,
+        users: res.data.results,
+        filteredUsers: res.data.results,
+      }));
+    });
+  }, []);
+
   const handleSort = (heading) => {
+    console.log("heading!!: ", heading);
     let currentOrder = developerState.headings
       .filter((elem) => elem.name === heading)
       .map((elem) => elem.order)
@@ -34,31 +46,36 @@ function UserTable() {
     }
 
     const compareFnc = (a, b) => {
+      console.log("a", a);
+      console.log("b", b);
+
+      const lowerHeading = heading.toLowerCase();
+
       if (currentOrder === "ascend") {
         // account for missing values
-        if (a[heading] === undefined) {
+        if (a[lowerHeading] === undefined) {
           return 1;
-        } else if (b[heading] === undefined) {
+        } else if (b[lowerHeading] === undefined) {
           return -1;
-        } else if (heading === "name") {
-          return a[heading].first.localeCompare(b[heading].first);
-        } else if (heading === "dob") {
-          return a[heading].age - b[heading].age;
+        } else if (lowerHeading === "name") {
+          return a[lowerHeading].first.localeCompare(b[lowerHeading].first);
+        } else if (lowerHeading === "dob") {
+          return a[lowerHeading].age - b[lowerHeading].age;
         } else {
-          return a[heading].localeCompare(b[heading]);
+          return a[lowerHeading].localeCompare(b[lowerHeading]);
         }
       } else {
         // account for missing values
-        if (a[heading] === undefined) {
+        if (a[lowerHeading] === undefined) {
           return 1;
-        } else if (b[heading] === undefined) {
+        } else if (b[lowerHeading] === undefined) {
           return -1;
-        } else if (heading === "name") {
-          return b[heading].first.localeCompare(a[heading].first);
-        } else if (heading === "dob") {
-          return b[heading].age - a[heading].age;
+        } else if (lowerHeading === "name") {
+          return b[lowerHeading].first.localeCompare(a[lowerHeading].first);
+        } else if (lowerHeading === "dob") {
+          return b[lowerHeading].age - a[lowerHeading].age;
         } else {
-          return b[heading].localeCompare(a[heading]);
+          return b[lowerHeading].localeCompare(a[lowerHeading]);
         }
       }
     };
@@ -68,23 +85,13 @@ function UserTable() {
       return elem;
     });
 
+    console.log("sorted users!!:", sortedUsers);
     setDeveloperState({
       ...developerState,
       filteredUsers: sortedUsers,
       headings: updatedHeadings,
     });
   };
-
-  useEffect(() => {
-    API.getUsers().then((res) => {
-      console.log(res.data.results);
-      setDeveloperState({
-        ...developerState,
-        users: res.data.results,
-        filteredUsers: res.data.results,
-      });
-    });
-  }, []);
 
   const handleSearch = (event) => {
     const sift = event.target.value.toLowerCase();
