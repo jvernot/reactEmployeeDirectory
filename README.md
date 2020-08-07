@@ -14,7 +14,7 @@ The user story behind this project was: "As a user, I want to be able to view my
 
 ### Goals
 
-The goals of this project included: braking the applications UI into components, managing component state, and responding to user events. I was able to accomplish all of these goals, and even decided to convert all of my class componets to functional components and use react hooks.
+The goals of this project included: breaking the applications UI into components, managing component state, and responding to user events. I was able to accomplish all of these goals, and even decided to convert all of my class componets to functional components and use react hooks.
 
 ### Details
 
