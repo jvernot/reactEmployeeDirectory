@@ -2,6 +2,8 @@
 
 ![Employee Directory](/public/ReactEmployeeDirectory.png)
 
+https://zen-ramanujan-3c1cb2.netlify.app
+
 ## Overview
 
 The employee directory is a full front-end react application that allows users at a company to quicly find and view data about their co-workers. Utilize the search bar to find speicifc employees quickly. Search results will dynamically narrow as a name is typed.
